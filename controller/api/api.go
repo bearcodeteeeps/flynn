@@ -550,16 +550,22 @@ func NewScaleRequest(ctScaleReq *ct.ScaleRequest) *ScaleRequest {
 		newTags = NewDeploymentTags(*ctScaleReq.NewTags)
 	}
 
+	var deploymentName string
+	if ctScaleReq.DeploymentID != "" {
+		deploymentName = fmt.Sprintf("apps/%s/deployments/%s", ctScaleReq.AppID, ctScaleReq.DeploymentID)
+	}
+
 	return &ScaleRequest{
-		Parent:       fmt.Sprintf("apps/%s/releases/%s", ctScaleReq.AppID, ctScaleReq.ReleaseID),
-		Name:         fmt.Sprintf("apps/%s/releases/%s/scales/%s", ctScaleReq.AppID, ctScaleReq.ReleaseID, ctScaleReq.ID),
-		State:        state,
-		OldProcesses: NewDeploymentProcesses(ctScaleReq.OldProcesses),
-		NewProcesses: newProcesses,
-		OldTags:      NewDeploymentTags(ctScaleReq.OldTags),
-		NewTags:      newTags,
-		CreateTime:   NewTimestamp(ctScaleReq.CreatedAt),
-		UpdateTime:   NewTimestamp(ctScaleReq.UpdatedAt),
+		Parent:         fmt.Sprintf("apps/%s/releases/%s", ctScaleReq.AppID, ctScaleReq.ReleaseID),
+		Name:           fmt.Sprintf("apps/%s/releases/%s/scales/%s", ctScaleReq.AppID, ctScaleReq.ReleaseID, ctScaleReq.ID),
+		DeploymentName: deploymentName,
+		State:          state,
+		OldProcesses:   NewDeploymentProcesses(ctScaleReq.OldProcesses),
+		NewProcesses:   newProcesses,
+		OldTags:        NewDeploymentTags(ctScaleReq.OldTags),
+		NewTags:        newTags,
+		CreateTime:     NewTimestamp(ctScaleReq.CreatedAt),
+		UpdateTime:     NewTimestamp(ctScaleReq.UpdatedAt),
 	}
 }
 

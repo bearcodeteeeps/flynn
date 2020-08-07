@@ -521,6 +521,9 @@ message ScaleRequest {
   google.protobuf.Timestamp create_time = 8;
 
   google.protobuf.Timestamp update_time = 9;
+
+  // deployment_name = "apps/APP_ID/deployments/DEPLOYMENT_ID"
+  string deployment_name = 10;
 }
 
 enum DeploymentStatus {
