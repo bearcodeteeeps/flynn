@@ -251,6 +251,8 @@ func scanExpandedEvent(s postgres.Scanner) (*ct.ExpandedEvent, error) {
 	// ExpandedDeployment
 	if deploymentID != nil {
 		d.ID = *deploymentID
+		sr.DeploymentID = d.ID
+		job.DeploymentID = d.ID
 	}
 	if deploymentAppID != nil {
 		d.AppID = *deploymentAppID
