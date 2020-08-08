@@ -410,9 +410,13 @@ func (r *FormationRepo) UpdateScaleRequest(req *ct.ScaleRequest) error {
 	if err != nil {
 		return err
 	}
-	if err := tx.QueryRow("scale_request_update", req.ID, string(req.State)).Scan(&req.UpdatedAt); err != nil {
+	var deploymentID *string
+	if err := tx.QueryRow("scale_request_update", req.ID, string(req.State)).Scan(&req.UpdatedAt, &deploymentID); err != nil {
 		tx.Rollback()
 		return err
+	}
+	if deploymentID != nil {
+		req.DeploymentID = *deploymentID
 	}
 	if err := CreateEvent(tx.Exec, &ct.Event{
 		AppID:        req.AppID,

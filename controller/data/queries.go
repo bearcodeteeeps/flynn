@@ -558,7 +558,7 @@ FROM updated
 ORDER BY created_at DESC`
 	scaleRequestUpdateQuery = `
 UPDATE scale_requests SET state = $2, updated_at = now() WHERE scale_request_id = $1
-RETURNING updated_at`
+RETURNING updated_at, deployment_id`
 	scaleRequestListQuery = `
 SELECT s.scale_request_id, s.app_id, s.release_id, s.state, s.old_processes, s.new_processes, s.old_tags, s.new_tags, s.created_at, s.updated_at
 FROM scale_requests s
